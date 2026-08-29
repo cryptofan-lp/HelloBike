@@ -1,0 +1,2245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <meta name="theme-color" content="#087ff5">
+
+  <title>HelloBikes — Dashboard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      background: #e9f1f8;
+      color: #17263a;
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      margin: auto;
+      background: #f5f8fb;
+      padding-bottom: 85px;
+    }
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      height: 68px;
+      padding: 0 17px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #0569c7,
+          #08b9ec
+        );
+
+      box-shadow:
+        0 5px 20px rgba(0,70,140,.18);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 41px;
+      height: 41px;
+
+      border-radius: 13px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: white;
+      color: #087ff5;
+
+      font-size: 21px;
+    }
+
+    .header-title strong {
+      display: block;
+      font-size: 17px;
+    }
+
+    .header-title span {
+      display: block;
+      margin-top: 2px;
+      font-size: 9px;
+      opacity: .8;
+    }
+
+    .logout {
+      padding: 8px 10px;
+      border-radius: 10px;
+
+      background: rgba(255,255,255,.16);
+      color: white;
+
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    /* =====================================================
+       CONTENT
+    ===================================================== */
+
+    .content {
+      padding: 15px;
+    }
+
+    .welcome {
+      margin-bottom: 14px;
+    }
+
+    .welcome p {
+      color: #8290a0;
+      font-size: 11px;
+    }
+
+    .welcome h1 {
+      margin-top: 3px;
+      font-size: 23px;
+    }
+
+    /* =====================================================
+       BALANCE
+    ===================================================== */
+
+    .balance {
+      position: relative;
+      overflow: hidden;
+
+      padding: 20px;
+
+      border-radius: 22px;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #064b94,
+          #087ff5,
+          #08bce7
+        );
+
+      box-shadow:
+        0 12px 30px rgba(8,127,245,.20);
+    }
+
+    .balance::after {
+      content: "";
+
+      position: absolute;
+
+      width: 180px;
+      height: 180px;
+
+      right: -75px;
+      top: -85px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(255,255,255,.10);
+    }
+
+    .balance-label {
+      font-size: 10px;
+      opacity: .8;
+    }
+
+    .balance-value {
+      margin-top: 6px;
+
+      font-size: 32px;
+      font-weight: 850;
+    }
+
+    .balance-row {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+
+      margin-top: 17px;
+
+      gap: 10px;
+    }
+
+    .balance-stat {
+      padding-right: 8px;
+      border-right: 1px solid rgba(255,255,255,.20);
+    }
+
+    .balance-stat:last-child {
+      border-right: 0;
+    }
+
+    .balance-stat span {
+      display: block;
+      font-size: 8px;
+      opacity: .72;
+    }
+
+    .balance-stat strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 12px;
+    }
+
+    /* =====================================================
+       ACTIONS
+    ===================================================== */
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 8px;
+
+      margin-top: 13px;
+    }
+
+    .action {
+      padding: 12px 5px;
+
+      border-radius: 14px;
+
+      background: white;
+
+      color: #087ff5;
+
+      box-shadow:
+        0 5px 17px rgba(30,60,90,.06);
+    }
+
+    .action-icon {
+      font-size: 19px;
+    }
+
+    .action span {
+      display: block;
+      margin-top: 5px;
+
+      color: #52667b;
+
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    /* =====================================================
+       SECTION
+    ===================================================== */
+
+    .section {
+      margin-top: 21px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 11px;
+    }
+
+    .section-header h2 {
+      font-size: 17px;
+    }
+
+    .section-header button {
+      background: transparent;
+      color: #087ff5;
+      font-size: 10px;
+      font-weight: 750;
+    }
+
+    /* =====================================================
+       BIKE PORTFOLIO
+    ===================================================== */
+
+    .bike-card {
+      background: white;
+      border-radius: 18px;
+      padding: 14px;
+
+      display: flex;
+      gap: 12px;
+      align-items: center;
+
+      box-shadow:
+        0 6px 20px rgba(30,60,90,.06);
+    }
+
+    .bike-image {
+      width: 78px;
+      height: 78px;
+
+      flex-shrink: 0;
+
+      border-radius: 14px;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(0,0,0,.02),
+          rgba(0,0,0,.25)
+        ),
+        url("/images/bikes.jpg")
+        center / cover;
+    }
+
+    .bike-info {
+      flex: 1;
+    }
+
+    .bike-info h3 {
+      font-size: 13px;
+    }
+
+    .bike-info p {
+      margin-top: 4px;
+      color: #8492a2;
+      font-size: 10px;
+    }
+
+    .bike-status {
+      display: inline-block;
+
+      margin-top: 7px;
+
+      padding: 4px 7px;
+
+      border-radius: 7px;
+
+      background: #eafaf3;
+      color: #0a9b65;
+
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .bike-value {
+      text-align: right;
+    }
+
+    .bike-value strong {
+      display: block;
+      color: #087ff5;
+      font-size: 15px;
+    }
+
+    .bike-value span {
+      display: block;
+      margin-top: 3px;
+      color: #8b98a6;
+      font-size: 8px;
+    }
+
+    /* =====================================================
+       REWARD CARD
+    ===================================================== */
+
+    .reward {
+      padding: 18px;
+
+      border-radius: 18px;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #102f51,
+          #087ff5
+        );
+
+      box-shadow:
+        0 9px 25px rgba(8,127,245,.15);
+    }
+
+    .reward-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      opacity: .75;
+    }
+
+    .reward-value {
+      margin-top: 4px;
+      font-size: 27px;
+      font-weight: 850;
+    }
+
+    .reward-description {
+      margin-top: 5px;
+      max-width: 310px;
+
+      color: rgba(255,255,255,.78);
+
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .reward-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+
+      margin-top: 13px;
+    }
+
+    .reward-stat {
+      padding: 9px;
+
+      border-radius: 10px;
+
+      background:
+        rgba(255,255,255,.10);
+    }
+
+    .reward-stat span {
+      display: block;
+      font-size: 8px;
+      opacity: .7;
+    }
+
+    .reward-stat strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 11px;
+    }
+
+    /* =====================================================
+       REFERRAL
+    ===================================================== */
+
+    .referral {
+      background: white;
+      border-radius: 18px;
+      padding: 17px;
+
+      box-shadow:
+        0 6px 20px rgba(30,60,90,.06);
+    }
+
+    .referral-code {
+      margin-top: 10px;
+
+      padding: 11px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background: #f1f7fc;
+
+      border-radius: 11px;
+    }
+
+    .referral-code strong {
+      color: #087ff5;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .copy {
+      padding: 7px 10px;
+
+      border-radius: 8px;
+
+      background: #087ff5;
+      color: white;
+
+      font-size: 9px;
+      font-weight: 750;
+    }
+
+    .levels {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 7px;
+
+      margin-top: 11px;
+    }
+
+    .level {
+      padding: 10px 4px;
+
+      border-radius: 11px;
+
+      background: #f7f9fb;
+
+      text-align: center;
+    }
+
+    .level strong {
+      display: block;
+      color: #087ff5;
+      font-size: 18px;
+    }
+
+    .level span {
+      display: block;
+      margin-top: 2px;
+      color: #8492a2;
+      font-size: 8px;
+    }
+
+    /* =====================================================
+       VERIFICATION
+    ===================================================== */
+
+    .verification {
+      background: white;
+      border-radius: 18px;
+      padding: 17px;
+
+      box-shadow:
+        0 6px 20px rgba(30,60,90,.06);
+    }
+
+    .verification-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 10px 0;
+
+      border-bottom: 1px solid #edf1f5;
+    }
+
+    .verification-row:last-child {
+      border-bottom: 0;
+    }
+
+    .verification-icon {
+      width: 34px;
+      height: 34px;
+
+      border-radius: 10px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #eaf5ff;
+      color: #087ff5;
+    }
+
+    .verification-info {
+      flex: 1;
+    }
+
+    .verification-info strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .verification-info span {
+      display: block;
+      margin-top: 2px;
+      color: #8a97a5;
+      font-size: 8px;
+    }
+
+    .status {
+      padding: 5px 7px;
+      border-radius: 7px;
+
+      background: #fff5df;
+      color: #a46100;
+
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .status.done {
+      background: #eafaf3;
+      color: #0a9b65;
+    }
+
+    /* =====================================================
+       TRANSACTIONS
+    ===================================================== */
+
+    .transactions {
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+
+      box-shadow:
+        0 6px 20px rgba(30,60,90,.06);
+    }
+
+    .transaction {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 13px;
+
+      border-bottom: 1px solid #edf1f5;
+    }
+
+    .transaction:last-child {
+      border-bottom: 0;
+    }
+
+    .transaction-icon {
+      width: 34px;
+      height: 34px;
+
+      border-radius: 10px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #edf6ff;
+      color: #087ff5;
+    }
+
+    .transaction-info {
+      flex: 1;
+    }
+
+    .transaction-info strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .transaction-info span {
+      display: block;
+      margin-top: 2px;
+      color: #8996a4;
+      font-size: 8px;
+    }
+
+    .transaction-amount {
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .positive {
+      color: #0a9b65;
+    }
+
+    .negative {
+      color: #d74747;
+    }
+
+    /* =====================================================
+       MODAL
+    ===================================================== */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+
+      display: none;
+
+      align-items: flex-end;
+      justify-content: center;
+
+      background: rgba(4,20,38,.55);
+
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 480px;
+
+      max-height: 90vh;
+      overflow-y: auto;
+
+      padding: 20px;
+
+      background: white;
+
+      border-radius: 24px 24px 0 0;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 17px;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+    }
+
+    .close {
+      width: 34px;
+      height: 34px;
+
+      border-radius: 50%;
+
+      background: #edf2f6;
+      color: #40566d;
+    }
+
+    .network {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+
+      margin-bottom: 14px;
+    }
+
+    .network-button {
+      padding: 12px;
+
+      border: 2px solid #e3eaf1;
+      border-radius: 12px;
+
+      background: white;
+
+      text-align: left;
+    }
+
+    .network-button.active {
+      border-color: #087ff5;
+      background: #eff8ff;
+    }
+
+    .network-button strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .network-button span {
+      display: block;
+      margin-top: 3px;
+      color: #8492a2;
+      font-size: 8px;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+
+      color: #63758a;
+      font-size: 9px;
+      font-weight: 750;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+
+      padding: 12px;
+
+      border: 1px solid #dce5ed;
+      border-radius: 11px;
+
+      outline: none;
+
+      background: #f9fbfd;
+    }
+
+    .modal-button {
+      width: 100%;
+
+      padding: 13px;
+
+      border-radius: 12px;
+
+      background: #087ff5;
+      color: white;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .notice {
+      padding: 11px;
+
+      border-radius: 10px;
+
+      background: #eef7ff;
+
+      color: #56718b;
+
+      font-size: 9px;
+      line-height: 1.5;
+
+      margin-bottom: 13px;
+    }
+
+    /* =====================================================
+       BOTTOM NAV
+    ===================================================== */
+
+    .bottom-nav {
+      position: fixed;
+      z-index: 200;
+
+      bottom: 0;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      width: 100%;
+      max-width: 480px;
+
+      height: 70px;
+
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+
+      background: rgba(255,255,255,.97);
+
+      border-top: 1px solid #e3eaf1;
+
+      padding: 6px 7px;
+    }
+
+    .nav {
+      background: transparent;
+
+      color: #8996a4;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      gap: 3px;
+
+      font-size: 8px;
+      font-weight: 650;
+    }
+
+    .nav-icon {
+      font-size: 18px;
+    }
+
+    .nav.active {
+      color: #087ff5;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (min-width: 481px) {
+      body {
+        background: #dce7f0;
+      }
+
+      .app {
+        box-shadow:
+          0 0 45px rgba(20,50,80,.12);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <header class="header">
+
+    <div class="header-left">
+
+      <div class="logo">
+        🚲
+      </div>
+
+      <div class="header-title">
+        <strong>HelloBikes</strong>
+        <span>My Dashboard</span>
+      </div>
+
+    </div>
+
+    <button
+      class="logout"
+      onclick="logout()"
+    >
+      Log out
+    </button>
+
+  </header>
+
+
+  <!-- =====================================================
+       CONTENT
+  ====================================================== -->
+
+  <main class="content">
+
+    <div class="welcome">
+
+      <p>Welcome back</p>
+
+      <h1 id="userName">
+        Hello, Rider 👋
+      </h1>
+
+    </div>
+
+
+    <!-- ===================================================
+         BALANCE
+    ==================================================== -->
+
+    <section class="balance">
+
+      <div class="balance-label">
+        AVAILABLE BALANCE
+      </div>
+
+      <div
+        class="balance-value"
+        id="balance"
+      >
+        $0.00
+      </div>
+
+      <div class="balance-row">
+
+        <div class="balance-stat">
+
+          <span>Owned Bikes</span>
+
+          <strong id="ownedBikes">
+            0
+          </strong>
+
+        </div>
+
+
+        <div class="balance-stat">
+
+          <span>Rewards</span>
+
+          <strong id="rewards">
+            $0.00
+          </strong>
+
+        </div>
+
+
+        <div class="balance-stat">
+
+          <span>Referral</span>
+
+          <strong id="referralRewards">
+            $0.00
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         QUICK ACTIONS
+    ==================================================== -->
+
+    <section class="actions">
+
+      <button
+        class="action"
+        onclick="openModal('depositModal')"
+      >
+        <div class="action-icon">
+          ↓
+        </div>
+
+        <span>Deposit</span>
+      </button>
+
+
+      <button
+        class="action"
+        onclick="openModal('withdrawModal')"
+      >
+        <div class="action-icon">
+          ↑
+        </div>
+
+        <span>Withdraw</span>
+      </button>
+
+
+      <button
+        class="action"
+        onclick="window.location.href='/'"
+      >
+        <div class="action-icon">
+          🚲
+        </div>
+
+        <span>Buy Bike</span>
+      </button>
+
+
+      <button
+        class="action"
+        onclick="openReferral()"
+      >
+        <div class="action-icon">
+          👥
+        </div>
+
+        <span>Referral</span>
+      </button>
+
+    </section>
+
+
+    <!-- ===================================================
+         MY BIKES
+    ==================================================== -->
+
+    <section class="section">
+
+      <div class="section-header">
+
+        <h2>My Bikes</h2>
+
+        <button
+          onclick="window.location.href='/'"
+        >
+          Buy More
+        </button>
+
+      </div>
+
+
+      <div class="bike-card">
+
+        <div class="bike-image"></div>
+
+        <div class="bike-info">
+
+          <h3>
+            HelloBikes Portfolio
+          </h3>
+
+          <p>
+            Your purchased bicycles
+          </p>
+
+          <span
+            class="bike-status"
+            id="bikeStatus"
+          >
+            ACTIVE
+          </span>
+
+        </div>
+
+        <div class="bike-value">
+
+          <strong id="bikeValue">
+            $0
+          </strong>
+
+          <span>
+            Portfolio
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         DAILY REWARD
+    ==================================================== -->
+
+    <section class="section">
+
+      <div class="section-header">
+
+        <h2>Reward Program</h2>
+
+      </div>
+
+      <div class="reward">
+
+        <div class="reward-label">
+          Configured Daily Reward
+        </div>
+
+        <div class="reward-value">
+          2%
+        </div>
+
+        <div class="reward-description">
+          The platform reward configuration is
+          displayed here for informational purposes.
+          Actual eligibility, calculation and payment
+          depend on the applicable platform terms.
+        </div>
+
+        <div class="reward-info">
+
+          <div class="reward-stat">
+
+            <span>
+              Working Days
+            </span>
+
+            <strong>
+              Monday – Friday
+            </strong>
+
+          </div>
+
+
+          <div class="reward-stat">
+
+            <span>
+              Program Period
+            </span>
+
+            <strong>
+              Up to 1 Year
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         REFERRAL
+    ==================================================== -->
+
+    <section class="section">
+
+      <div class="section-header">
+
+        <h2>Referral Program</h2>
+
+        <button onclick="openReferral()">
+          Details
+        </button>
+
+      </div>
+
+      <div class="referral">
+
+        <div>
+          <strong>
+            Your Referral Code
+          </strong>
+        </div>
+
+        <div class="referral-code">
+
+          <strong id="referralCode">
+            HB-XXXXXX
+          </strong>
+
+          <button
+            class="copy"
+            onclick="copyReferral()"
+          >
+            COPY
+          </button>
+
+        </div>
+
+        <div class="levels">
+
+          <div class="level">
+            <strong>10%</strong>
+            <span>LEVEL 1</span>
+          </div>
+
+          <div class="level">
+            <strong>3%</strong>
+            <span>LEVEL 2</span>
+          </div>
+
+          <div class="level">
+            <strong>2%</strong>
+            <span>LEVEL 3</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         KYC
+    ==================================================== -->
+
+    <section class="section">
+
+      <div class="section-header">
+
+        <h2>Verification</h2>
+
+        <button onclick="openKyc()">
+          Verify
+        </button>
+
+      </div>
+
+      <div class="verification">
+
+        <div class="verification-row">
+
+          <div class="verification-icon">
+            ✓
+          </div>
+
+          <div class="verification-info">
+
+            <strong>
+              KYC Identity Verification
+            </strong>
+
+            <span>
+              Verify your identity
+            </span>
+
+          </div>
+
+          <span
+            class="status"
+            id="kycStatus"
+          >
+            PENDING
+          </span>
+
+        </div>
+
+
+        <div class="verification-row">
+
+          <div class="verification-icon">
+            1
+          </div>
+
+          <div class="verification-info">
+
+            <strong>
+              Verification Step 1
+            </strong>
+
+            <span>
+              Account/contact verification
+            </span>
+
+          </div>
+
+          <span class="status">
+            REQUIRED
+          </span>
+
+        </div>
+
+
+        <div class="verification-row">
+
+          <div class="verification-icon">
+            2
+          </div>
+
+          <div class="verification-info">
+
+            <strong>
+              Verification Step 2
+            </strong>
+
+            <span>
+              Identity verification
+            </span>
+
+          </div>
+
+          <span class="status">
+            REQUIRED
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         TRANSACTIONS
+    ==================================================== -->
+
+    <section class="section">
+
+      <div class="section-header">
+
+        <h2>Recent Transactions</h2>
+
+        <button onclick="showMessage('Transaction history will load from the account API.')">
+          View All
+        </button>
+
+      </div>
+
+      <div class="transactions">
+
+        <div class="transaction">
+
+          <div class="transaction-icon">
+            ↓
+          </div>
+
+          <div class="transaction-info">
+
+            <strong>
+              Account Deposit
+            </strong>
+
+            <span>
+              No transactions yet
+            </span>
+
+          </div>
+
+          <div class="transaction-amount">
+            —
+          </div>
+
+        </div>
+
+
+        <div class="transaction">
+
+          <div class="transaction-icon">
+            🚲
+          </div>
+
+          <div class="transaction-info">
+
+            <strong>
+              Bike Purchase
+            </strong>
+
+            <span>
+              No transactions yet
+            </span>
+
+          </div>
+
+          <div class="transaction-amount">
+            —
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         SUPPORT
+    ==================================================== -->
+
+    <section class="section">
+
+      <div class="section-header">
+
+        <h2>Customer Support</h2>
+
+      </div>
+
+      <div class="actions">
+
+        <button
+          class="action"
+          onclick="openTelegram()"
+        >
+          <div class="action-icon">
+            ✈
+          </div>
+
+          <span>
+            Telegram
+          </span>
+        </button>
+
+
+        <button
+          class="action"
+          onclick="openDiscord()"
+        >
+          <div class="action-icon">
+            🎮
+          </div>
+
+          <span>
+            Discord
+          </span>
+        </button>
+
+
+        <button
+          class="action"
+          onclick="openKyc()"
+        >
+          <div class="action-icon">
+            🪪
+          </div>
+
+          <span>
+            KYC
+          </span>
+        </button>
+
+
+        <button
+          class="action"
+          onclick="showMessage('Help centre will be connected here.')"
+        >
+          <div class="action-icon">
+            ?
+          </div>
+
+          <span>
+            Help
+          </span>
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       BOTTOM NAVIGATION
+  ====================================================== -->
+
+  <nav class="bottom-nav">
+
+    <button
+      class="nav active"
+      onclick="window.scrollTo({top:0,behavior:'smooth'})"
+    >
+      <span class="nav-icon">⌂</span>
+      Home
+    </button>
+
+
+    <button
+      class="nav"
+      onclick="window.location.href='/'"
+    >
+      <span class="nav-icon">🚲</span>
+      Bikes
+    </button>
+
+
+    <button
+      class="nav"
+      onclick="openModal('depositModal')"
+    >
+      <span class="nav-icon">▣</span>
+      Wallet
+    </button>
+
+
+    <button
+      class="nav"
+      onclick="openReferral()"
+    >
+      <span class="nav-icon">👥</span>
+      Referral
+    </button>
+
+
+    <button
+      class="nav"
+      onclick="openKyc()"
+    >
+      <span class="nav-icon">●</span>
+      Account
+    </button>
+
+  </nav>
+
+</div>
+
+
+<!-- =====================================================
+     DEPOSIT MODAL
+====================================================== -->
+
+<div
+  class="modal-overlay"
+  id="depositModal"
+  onclick="closeOutside(event,'depositModal')"
+>
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h3>Deposit USDT</h3>
+
+      <button
+        class="close"
+        onclick="closeModal('depositModal')"
+      >
+        ✕
+      </button>
+
+    </div>
+
+    <div class="notice">
+      Minimum deposit: <strong>$10</strong>.
+      Select the blockchain network carefully before
+      sending USDT.
+    </div>
+
+    <div class="network">
+
+      <button
+        class="network-button active"
+        id="depositTRC20"
+        onclick="selectNetwork('TRC20','deposit')"
+      >
+        <strong>USDT TRC20</strong>
+        <span>TRON Network</span>
+      </button>
+
+      <button
+        class="network-button"
+        id="depositBEP20"
+        onclick="selectNetwork('BEP20','deposit')"
+      >
+        <strong>USDT BEP20</strong>
+        <span>BNB Smart Chain</span>
+      </button>
+
+    </div>
+
+    <div class="field">
+
+      <label>
+        AMOUNT (USD)
+      </label>
+
+      <input
+        id="depositAmount"
+        type="number"
+        min="10"
+        step="0.01"
+        placeholder="Minimum $10"
+      >
+
+    </div>
+
+    <button
+      class="modal-button"
+      onclick="startDeposit()"
+    >
+      Continue Deposit
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     WITHDRAW MODAL
+====================================================== -->
+
+<div
+  class="modal-overlay"
+  id="withdrawModal"
+  onclick="closeOutside(event,'withdrawModal')"
+>
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h3>Withdraw USDT</h3>
+
+      <button
+        class="close"
+        onclick="closeModal('withdrawModal')"
+      >
+        ✕
+      </button>
+
+    </div>
+
+    <div class="notice">
+      Withdrawals are available Monday–Friday.
+      Minimum: <strong>$50</strong>.
+      Maximum: <strong>$50,000</strong>.
+      The configured withdrawal fee is 15%.
+    </div>
+
+    <div class="network">
+
+      <button
+        class="network-button active"
+        id="withdrawTRC20"
+        onclick="selectNetwork('TRC20','withdraw')"
+      >
+        <strong>USDT TRC20</strong>
+        <span>TRON Network</span>
+      </button>
+
+      <button
+        class="network-button"
+        id="withdrawBEP20"
+        onclick="selectNetwork('BEP20','withdraw')"
+      >
+        <strong>USDT BEP20</strong>
+        <span>BNB Smart Chain</span>
+      </button>
+
+    </div>
+
+    <div class="field">
+
+      <label>
+        AMOUNT (USD)
+      </label>
+
+      <input
+        id="withdrawAmount"
+        type="number"
+        min="50"
+        max="50000"
+        step="0.01"
+        placeholder="$50 – $50,000"
+      >
+
+    </div>
+
+    <div class="field">
+
+      <label>
+        WALLET ADDRESS
+      </label>
+
+      <input
+        id="withdrawAddress"
+        type="text"
+        placeholder="Enter compatible USDT address"
+      >
+
+    </div>
+
+    <button
+      class="modal-button"
+      onclick="startWithdrawal()"
+    >
+      Request Withdrawal
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  /* =====================================================
+     STATE
+  ====================================================== */
+
+  let selectedNetwork = "TRC20";
+
+
+  /* =====================================================
+     MODALS
+  ====================================================== */
+
+  function openModal(id) {
+
+    const modal =
+      document.getElementById(id);
+
+    if (!modal) {
+      return;
+    }
+
+    modal.classList.add("show");
+
+    document.body.style.overflow =
+      "hidden";
+  }
+
+
+  function closeModal(id) {
+
+    const modal =
+      document.getElementById(id);
+
+    if (!modal) {
+      return;
+    }
+
+    modal.classList.remove("show");
+
+    document.body.style.overflow =
+      "";
+  }
+
+
+  function closeOutside(event,id) {
+
+    if (
+      event.target &&
+      event.target.id === id
+    ) {
+
+      closeModal(id);
+
+    }
+
+  }
+
+
+  /* =====================================================
+     NETWORK
+  ====================================================== */
+
+  function selectNetwork(
+    network,
+    type
+  ) {
+
+    selectedNetwork =
+      network;
+
+    const prefix =
+      type === "deposit"
+        ? "deposit"
+        : "withdraw";
+
+    const trc =
+      document.getElementById(
+        `${prefix}TRC20`
+      );
+
+    const bep =
+      document.getElementById(
+        `${prefix}BEP20`
+      );
+
+    if (trc) {
+      trc.classList.toggle(
+        "active",
+        network === "TRC20"
+      );
+    }
+
+    if (bep) {
+      bep.classList.toggle(
+        "active",
+        network === "BEP20"
+      );
+    }
+
+  }
+
+
+  /* =====================================================
+     DEPOSIT
+  ====================================================== */
+
+  function startDeposit() {
+
+    const amount =
+      Number(
+        document.getElementById(
+          "depositAmount"
+        ).value
+      );
+
+    if (!amount || amount < 10) {
+
+      showMessage(
+        "Minimum deposit is $10."
+      );
+
+      return;
+    }
+
+    showMessage(
+      `Deposit request prepared for $${amount.toFixed(2)} using USDT ${selectedNetwork}. The secure blockchain deposit endpoint will be connected in the wallet backend.`
+    );
+
+  }
+
+
+  /* =====================================================
+     WITHDRAWAL
+  ====================================================== */
+
+  function startWithdrawal() {
+
+    const amount =
+      Number(
+        document.getElementById(
+          "withdrawAmount"
+        ).value
+      );
+
+    const address =
+      document.getElementById(
+        "withdrawAddress"
+      ).value.trim();
+
+    if (!amount) {
+
+      showMessage(
+        "Please enter a withdrawal amount."
+      );
+
+      return;
+    }
+
+    if (
+      amount < 50 ||
+      amount > 50000
+    ) {
+
+      showMessage(
+        "Withdrawal amount must be between $50 and $50,000."
+      );
+
+      return;
+    }
+
+    if (!address) {
+
+      showMessage(
+        "Please enter your wallet address."
+      );
+
+      return;
+    }
+
+    const fee =
+      amount * 0.15;
+
+    const receive =
+      amount - fee;
+
+    showMessage(
+      `Withdrawal request prepared.\n\nNetwork: USDT ${selectedNetwork}\nAmount: $${amount.toFixed(2)}\n15% fee: $${fee.toFixed(2)}\nEstimated amount after fee: $${receive.toFixed(2)}\n\nThe final transaction will require backend verification.`
+    );
+
+  }
+
+
+  /* =====================================================
+     REFERRAL
+  ====================================================== */
+
+  function openReferral() {
+
+    showMessage(
+      "Referral dashboard will show your Level 1, Level 2 and Level 3 network activity and eligible commissions."
+    );
+
+  }
+
+
+  function copyReferral() {
+
+    const code =
+      document.getElementById(
+        "referralCode"
+      ).textContent.trim();
+
+    if (
+      navigator.clipboard &&
+      navigator.clipboard.writeText
+    ) {
+
+      navigator.clipboard
+        .writeText(code)
+        .then(() => {
+
+          showMessage(
+            "Referral code copied."
+          );
+
+        })
+        .catch(() => {
+
+          showMessage(
+            `Referral code: ${code}`
+          );
+
+        });
+
+    } else {
+
+      showMessage(
+        `Referral code: ${code}`
+      );
+
+    }
+
+  }
+
+
+  /* =====================================================
+     KYC
+  ====================================================== */
+
+  function openKyc() {
+
+    showMessage(
+      "KYC verification will be completed through the secure verification process."
+    );
+
+  }
+
+
+  /* =====================================================
+     SUPPORT
+  ====================================================== */
+
+  function openTelegram() {
+
+    showMessage(
+      "Telegram support link will be connected here."
+    );
+
+  }
+
+
+  function openDiscord() {
+
+    showMessage(
+      "Discord support link will be connected here."
+    );
+
+  }
+
+
+  /* =====================================================
+     MESSAGE
+  ====================================================== */
+
+  function showMessage(message) {
+
+    window.alert(message);
+
+  }
+
+
+  /* =====================================================
+     LOGOUT
+  ====================================================== */
+
+  function logout() {
+
+    /*
+      The secure authentication session will be
+      cleared by the authentication backend.
+    */
+
+    try {
+
+      localStorage.removeItem(
+        "hellobikes_user"
+      );
+
+    } catch (error) {
+
+      console.warn(
+        "Could not clear local storage.",
+        error
+      );
+
+    }
+
+    window.location.href =
+      "/login.html";
+
+  }
+
+
+  /* =====================================================
+     LOAD USER DATA
+  ====================================================== */
+
+  async function loadDashboard() {
+
+    /*
+      This endpoint will be connected once
+      the authenticated dashboard API is added.
+
+      We intentionally do not put any Supabase
+      secret/service key in browser JavaScript.
+    */
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/me",
+          {
+            credentials: "include"
+          }
+        );
+
+      if (!response.ok) {
+        return;
+      }
+
+      const result =
+        await response.json();
+
+      if (!result || !result.user) {
+        return;
+      }
+
+      const user =
+        result.user;
+
+      if (user.full_name) {
+
+        document.getElementById(
+          "userName"
+        ).textContent =
+          `Hello, ${user.full_name} 👋`;
+
+      }
+
+      if (
+        typeof user.balance ===
+        "number"
+      ) {
+
+        document.getElementById(
+          "balance"
+        ).textContent =
+          `$${user.balance.toFixed(2)}`;
+
+      }
+
+      if (
+        typeof user.owned_bikes ===
+        "number"
+      ) {
+
+        document.getElementById(
+          "ownedBikes"
+        ).textContent =
+          user.owned_bikes;
+
+      }
+
+      if (
+        typeof user.rewards ===
+        "number"
+      ) {
+
+        document.getElementById(
+          "rewards"
+        ).textContent =
+          `$${user.rewards.toFixed(2)}`;
+
+      }
+
+      if (
+        typeof user.referral_rewards ===
+        "number"
+      ) {
+
+        document.getElementById(
+          "referralRewards"
+        ).textContent =
+          `$${user.referral_rewards.toFixed(2)}`;
+
+      }
+
+      if (user.referral_code) {
+
+        document.getElementById(
+          "referralCode"
+        ).textContent =
+          user.referral_code;
+
+      }
+
+      if (user.kyc_status) {
+
+        const status =
+          document.getElementById(
+            "kycStatus"
+          );
+
+        status.textContent =
+          String(
+            user.kyc_status
+          ).toUpperCase();
+
+        if (
+          String(
+            user.kyc_status
+          ).toLowerCase() ===
+          "verified"
+        ) {
+
+          status.classList.add(
+            "done"
+          );
+
+        }
+
+      }
+
+    } catch (error) {
+
+      console.log(
+        "Dashboard data is not connected yet."
+      );
+
+    }
+
+  }
+
+
+  /* =====================================================
+     ESCAPE KEY
+  ====================================================== */
+
+  document.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key ===
+        "Escape"
+      ) {
+
+        document
+          .querySelectorAll(
+            ".modal-overlay.show"
+          )
+          .forEach(
+            function(modal) {
+
+              modal.classList.remove(
+                "show"
+              );
+
+            }
+          );
+
+        document.body.style.overflow =
+          "";
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     INITIALIZE
+  ====================================================== */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+      loadDashboard();
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
