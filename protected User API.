@@ -1,0 +1,810 @@
+const express = require("express");
+const { createClient } = require("@supabase/supabase-js");
+
+const router = express.Router();
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+  process.env.SUPABASE_URL;
+
+const SUPABASE_SECRET_KEY =
+  process.env.SUPABASE_SECRET_KEY;
+
+if (!SUPABASE_URL) {
+  throw new Error(
+    "Missing SUPABASE_URL"
+  );
+}
+
+if (!SUPABASE_SECRET_KEY) {
+  throw new Error(
+    "Missing SUPABASE_SECRET_KEY"
+  );
+}
+
+const supabase = createClient(
+  SUPABASE_URL,
+  SUPABASE_SECRET_KEY,
+  {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  }
+);
+
+
+/* =========================================================
+   HELPER — FIND PROFILE
+========================================================= */
+
+async function getProfile(userId) {
+
+  const {
+    data,
+    error
+  } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+
+/* =========================================================
+   GET CURRENT USER
+   GET /api/me
+========================================================= */
+
+router.get(
+  "/me",
+  async (req, res) => {
+
+    try {
+
+      if (!req.user) {
+
+        return res.status(401).json({
+          ok: false,
+          message:
+            "Authentication required."
+        });
+
+      }
+
+      const user =
+        req.user;
+
+      let profile = null;
+
+      try {
+
+        profile =
+          await getProfile(
+            user.id
+          );
+
+      } catch (error) {
+
+        console.error(
+          "Profile lookup error:",
+          error.message
+        );
+
+      }
+
+
+      /* -----------------------------------------------------
+         SAFE USER RESPONSE
+      ----------------------------------------------------- */
+
+      return res.json({
+
+        ok: true,
+
+        user: {
+
+          id:
+            user.id,
+
+          email:
+            user.email || "",
+
+          full_name:
+            profile?.full_name ||
+            user.user_metadata?.full_name ||
+            "",
+
+          phone:
+            profile?.phone ||
+            user.user_metadata?.phone ||
+            "",
+
+          country:
+            profile?.country ||
+            user.user_metadata?.country ||
+            "",
+
+          balance:
+            Number(
+              profile?.balance || 0
+            ),
+
+          owned_bikes:
+            Number(
+              profile?.owned_bikes || 0
+            ),
+
+          rewards:
+            Number(
+              profile?.rewards || 0
+            ),
+
+          referral_rewards:
+            Number(
+              profile?.referral_rewards || 0
+            ),
+
+          referral_code:
+            profile?.referral_code ||
+            "",
+
+          kyc_status:
+            profile?.kyc_status ||
+            "pending"
+
+        }
+
+      });
+
+    } catch (error) {
+
+      console.error(
+        "GET /api/me error:",
+        error
+      );
+
+      return res.status(500).json({
+
+        ok: false,
+
+        message:
+          "Unable to load account information."
+
+      });
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   GET ACCOUNT SUMMARY
+   GET /api/account/summary
+========================================================= */
+
+router.get(
+  "/account/summary",
+  async (req, res) => {
+
+    try {
+
+      if (!req.user) {
+
+        return res.status(401).json({
+          ok: false,
+          message:
+            "Authentication required."
+        });
+
+      }
+
+      const profile =
+        await getProfile(
+          req.user.id
+        );
+
+
+      if (!profile) {
+
+        return res.status(404).json({
+
+          ok: false,
+
+          message:
+            "User profile not found."
+
+        });
+
+      }
+
+
+      return res.json({
+
+        ok: true,
+
+        account: {
+
+          id:
+            profile.id,
+
+          name:
+            profile.full_name || "",
+
+          email:
+            profile.email ||
+            req.user.email ||
+            "",
+
+          phone:
+            profile.phone || "",
+
+          country:
+            profile.country || "",
+
+          balance:
+            Number(
+              profile.balance || 0
+            ),
+
+          rewards:
+            Number(
+              profile.rewards || 0
+            ),
+
+          referral_rewards:
+            Number(
+              profile.referral_rewards || 0
+            ),
+
+          owned_bikes:
+            Number(
+              profile.owned_bikes || 0
+            ),
+
+          referral_code:
+            profile.referral_code ||
+            "",
+
+          kyc_status:
+            profile.kyc_status ||
+            "pending"
+
+        }
+
+      });
+
+    } catch (error) {
+
+      console.error(
+        "Account summary error:",
+        error
+      );
+
+      return res.status(500).json({
+
+        ok: false,
+
+        message:
+          "Unable to load account summary."
+
+      });
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   GET USER TRANSACTIONS
+   GET /api/account/transactions
+========================================================= */
+
+router.get(
+  "/account/transactions",
+  async (req, res) => {
+
+    try {
+
+      if (!req.user) {
+
+        return res.status(401).json({
+          ok: false,
+          message:
+            "Authentication required."
+        });
+
+      }
+
+
+      /*
+        We query the transactions table if it exists.
+
+        The table will be created in the database
+        stage. Until then, this endpoint returns
+        an empty transaction list instead of exposing
+        a database error to the user.
+      */
+
+      const {
+        data,
+        error
+      } = await supabase
+        .from("transactions")
+        .select(`
+          id,
+          type,
+          amount,
+          currency,
+          network,
+          status,
+          created_at
+        `)
+        .eq(
+          "user_id",
+          req.user.id
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        )
+        .limit(50);
+
+
+      if (error) {
+
+        console.warn(
+          "Transactions table unavailable:",
+          error.message
+        );
+
+        return res.json({
+
+          ok: true,
+
+          transactions: []
+
+        });
+
+      }
+
+
+      return res.json({
+
+        ok: true,
+
+        transactions:
+          data || []
+
+      });
+
+    } catch (error) {
+
+      console.error(
+        "Transactions error:",
+        error
+      );
+
+      return res.status(500).json({
+
+        ok: false,
+
+        message:
+          "Unable to load transactions."
+
+      });
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   GET USER BIKES
+   GET /api/account/bikes
+========================================================= */
+
+router.get(
+  "/account/bikes",
+  async (req, res) => {
+
+    try {
+
+      if (!req.user) {
+
+        return res.status(401).json({
+          ok: false,
+          message:
+            "Authentication required."
+        });
+
+      }
+
+
+      const {
+        data,
+        error
+      } = await supabase
+        .from("user_bikes")
+        .select(`
+          id,
+          package_id,
+          quantity,
+          purchase_amount,
+          status,
+          created_at
+        `)
+        .eq(
+          "user_id",
+          req.user.id
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+
+      if (error) {
+
+        console.warn(
+          "User bikes unavailable:",
+          error.message
+        );
+
+        return res.json({
+
+          ok: true,
+
+          bikes: []
+
+        });
+
+      }
+
+
+      return res.json({
+
+        ok: true,
+
+        bikes:
+          data || []
+
+      });
+
+    } catch (error) {
+
+      console.error(
+        "User bikes error:",
+        error
+      );
+
+      return res.status(500).json({
+
+        ok: false,
+
+        message:
+          "Unable to load bicycles."
+
+      });
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   GET REFERRAL SUMMARY
+   GET /api/account/referrals
+========================================================= */
+
+router.get(
+  "/account/referrals",
+  async (req, res) => {
+
+    try {
+
+      if (!req.user) {
+
+        return res.status(401).json({
+          ok: false,
+          message:
+            "Authentication required."
+        });
+
+      }
+
+
+      const profile =
+        await getProfile(
+          req.user.id
+        );
+
+
+      let referrals = [];
+
+      try {
+
+        const {
+          data,
+          error
+        } = await supabase
+          .from("referrals")
+          .select(`
+            id,
+            referred_user_id,
+            level,
+            commission,
+            status,
+            created_at
+          `)
+          .eq(
+            "referrer_id",
+            req.user.id
+          )
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
+
+        if (!error) {
+
+          referrals =
+            data || [];
+
+        }
+
+      } catch (error) {
+
+        console.warn(
+          "Referral table unavailable:",
+          error.message
+        );
+
+      }
+
+
+      return res.json({
+
+        ok: true,
+
+        referral: {
+
+          code:
+            profile?.referral_code ||
+            "",
+
+          levels: {
+
+            level_1: "10%",
+
+            level_2: "3%",
+
+            level_3: "2%"
+
+          },
+
+          total_rewards:
+            Number(
+              profile?.referral_rewards ||
+              0
+            ),
+
+          referrals
+
+        }
+
+      });
+
+    } catch (error) {
+
+      console.error(
+        "Referral summary error:",
+        error
+      );
+
+      return res.status(500).json({
+
+        ok: false,
+
+        message:
+          "Unable to load referral information."
+
+      });
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   GET KYC STATUS
+   GET /api/account/kyc
+========================================================= */
+
+router.get(
+  "/account/kyc",
+  async (req, res) => {
+
+    try {
+
+      if (!req.user) {
+
+        return res.status(401).json({
+          ok: false,
+          message:
+            "Authentication required."
+        });
+
+      }
+
+
+      const profile =
+        await getProfile(
+          req.user.id
+        );
+
+
+      return res.json({
+
+        ok: true,
+
+        kyc: {
+
+          status:
+            profile?.kyc_status ||
+            "pending",
+
+          step_1:
+            profile?.verification_step_1 ||
+            "pending",
+
+          step_2:
+            profile?.verification_step_2 ||
+            "pending"
+
+        }
+
+      });
+
+    } catch (error) {
+
+      console.error(
+        "KYC status error:",
+        error
+      );
+
+      return res.status(500).json({
+
+        ok: false,
+
+        message:
+          "Unable to load KYC status."
+
+      });
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   GET WALLET SUMMARY
+   GET /api/account/wallet
+========================================================= */
+
+router.get(
+  "/account/wallet",
+  async (req, res) => {
+
+    try {
+
+      if (!req.user) {
+
+        return res.status(401).json({
+          ok: false,
+          message:
+            "Authentication required."
+        });
+
+      }
+
+
+      const profile =
+        await getProfile(
+          req.user.id
+        );
+
+
+      return res.json({
+
+        ok: true,
+
+        wallet: {
+
+          balance:
+            Number(
+              profile?.balance || 0
+            ),
+
+          currency:
+            "USDT",
+
+          networks: [
+            "TRC20",
+            "BEP20"
+          ],
+
+          minimum_deposit:
+            10,
+
+          minimum_withdrawal:
+            50,
+
+          maximum_withdrawal:
+            50000,
+
+          withdrawal_fee:
+            15,
+
+          withdrawal_days:
+            [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ]
+
+        }
+
+      });
+
+    } catch (error) {
+
+      console.error(
+        "Wallet summary error:",
+        error
+      );
+
+      return res.status(500).json({
+
+        ok: false,
+
+        message:
+          "Unable to load wallet."
+
+      });
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   EXPORT
+========================================================= */
+
+module.exports = router;
