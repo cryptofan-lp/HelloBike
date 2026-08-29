@@ -1,0 +1,1294 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --blue: #0879e8;
+  --blue-dark: #0455aa;
+  --cyan: #00c6ff;
+  --green: #18b979;
+  --orange: #ff8a00;
+  --red: #e53935;
+  --dark: #10233f;
+  --text: #1c2b3a;
+  --muted: #718096;
+  --white: #ffffff;
+  --light: #f4f8fc;
+  --border: #e4ebf3;
+  --shadow: 0 10px 30px rgba(0, 63, 130, 0.12);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+  background:
+    linear-gradient(
+      rgba(245, 250, 255, 0.92),
+      rgba(245, 250, 255, 0.97)
+    ),
+    url("/images/bikes-city.jpg") center / cover fixed;
+
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* =====================================================
+   PHONE APPLICATION CONTAINER
+===================================================== */
+
+.app-shell {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--light);
+  position: relative;
+  overflow-x: hidden;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
+}
+
+/* =====================================================
+   TOP HEADER
+===================================================== */
+
+.top-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px 18px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(4, 85, 170, 0.98),
+      rgba(0, 198, 255, 0.96)
+    );
+
+  box-shadow: 0 4px 18px rgba(0, 80, 160, 0.2);
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: white;
+  color: var(--blue);
+  font-size: 21px;
+  font-weight: 900;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-text strong {
+  font-size: 19px;
+  line-height: 1;
+}
+
+.logo-text span {
+  font-size: 10px;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.18);
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+  position: relative;
+  min-height: 245px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  padding: 24px 20px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 65, 125, 0.08),
+      rgba(0, 31, 67, 0.78)
+    ),
+    url("/images/bike-rider.jpg") center / cover;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-flex;
+  padding: 7px 11px;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-size: 29px;
+  line-height: 1.08;
+  margin-bottom: 8px;
+}
+
+.hero p {
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 350px;
+  opacity: 0.95;
+}
+
+/* =====================================================
+   PAGE CONTENT
+===================================================== */
+
+.page-content {
+  padding: 16px;
+  padding-bottom: 90px;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 12px;
+}
+
+.section-title h2 {
+  font-size: 18px;
+  color: var(--dark);
+}
+
+.section-title span {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* =====================================================
+   DASHBOARD BALANCE CARD
+===================================================== */
+
+.balance-card {
+  position: relative;
+  overflow: hidden;
+
+  padding: 20px;
+  border-radius: 22px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0455aa,
+      #0879e8 55%,
+      #00b9ed
+    );
+
+  box-shadow: var(--shadow);
+}
+
+.balance-card::after {
+  content: "";
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: -55px;
+  top: -55px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.balance-label {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.balance-amount {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 7px 0 15px;
+}
+
+.balance-meta {
+  display: flex;
+  gap: 20px;
+}
+
+.balance-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.balance-meta-item small {
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+.balance-meta-item strong {
+  font-size: 13px;
+}
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.action-card {
+  border: 1px solid var(--border);
+  background: white;
+
+  border-radius: 17px;
+  padding: 15px;
+
+  cursor: pointer;
+
+  box-shadow: 0 5px 18px rgba(0, 60, 120, 0.06);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.action-icon {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 9px;
+
+  background: #eaf5ff;
+  color: var(--blue);
+
+  font-size: 18px;
+}
+
+.action-card strong {
+  display: block;
+  font-size: 13px;
+}
+
+.action-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 3px;
+}
+
+/* =====================================================
+   PACKAGE GRID
+===================================================== */
+
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 11px;
+}
+
+.package-card {
+  position: relative;
+
+  padding: 15px;
+
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  box-shadow: 0 6px 20px rgba(0, 50, 100, 0.07);
+
+  overflow: hidden;
+}
+
+.package-card.featured {
+  border: 2px solid var(--blue);
+}
+
+.package-tag {
+  display: inline-block;
+
+  padding: 4px 7px;
+  border-radius: 8px;
+
+  background: #eaf5ff;
+  color: var(--blue);
+
+  font-size: 9px;
+  font-weight: 800;
+
+  margin-bottom: 9px;
+}
+
+.package-card h3 {
+  font-size: 15px;
+  color: var(--dark);
+}
+
+.package-bikes {
+  color: var(--muted);
+  font-size: 11px;
+  margin: 5px 0 10px;
+}
+
+.package-price {
+  font-size: 22px;
+  font-weight: 850;
+  color: var(--blue);
+  margin-bottom: 11px;
+}
+
+.package-rate {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 8px;
+
+  border-radius: 10px;
+  background: #f5f9fd;
+
+  font-size: 10px;
+}
+
+.package-rate strong {
+  color: var(--green);
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.btn {
+  width: 100%;
+
+  border: 0;
+  border-radius: 12px;
+
+  padding: 12px 14px;
+
+  font-size: 13px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0879e8, #00aeea);
+  color: white;
+}
+
+.btn-success {
+  background: var(--green);
+  color: white;
+}
+
+.btn-outline {
+  background: white;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+}
+
+.btn-danger {
+  background: var(--red);
+  color: white;
+}
+
+.btn + .btn {
+  margin-top: 8px;
+}
+
+/* =====================================================
+   BIKE IMAGE CARD
+===================================================== */
+
+.bike-banner {
+  min-height: 170px;
+
+  border-radius: 20px;
+
+  display: flex;
+  align-items: flex-end;
+
+  padding: 18px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      rgba(0, 25, 55, 0.8)
+    ),
+    url("/images/bikes-rental.jpg") center / cover;
+
+  box-shadow: var(--shadow);
+}
+
+.bike-banner h3 {
+  font-size: 19px;
+  margin-bottom: 4px;
+}
+
+.bike-banner p {
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+/* =====================================================
+   WALLET
+===================================================== */
+
+.wallet-card {
+  background: white;
+  border-radius: 18px;
+  padding: 17px;
+  border: 1px solid var(--border);
+  box-shadow: 0 5px 18px rgba(0, 50, 100, 0.06);
+}
+
+.wallet-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 0;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.wallet-row:last-child {
+  border-bottom: 0;
+}
+
+.wallet-row span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.wallet-row strong {
+  font-size: 14px;
+}
+
+/* =====================================================
+   NETWORK SELECTOR
+===================================================== */
+
+.network-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.network-option {
+  border: 2px solid var(--border);
+  border-radius: 14px;
+
+  background: white;
+
+  padding: 13px;
+
+  cursor: pointer;
+}
+
+.network-option.active {
+  border-color: var(--blue);
+  background: #f0f8ff;
+}
+
+.network-option strong {
+  display: block;
+  font-size: 13px;
+}
+
+.network-option span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 3px;
+}
+
+/* =====================================================
+   FORMS
+===================================================== */
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.form-control {
+  width: 100%;
+
+  padding: 12px 13px;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: white;
+
+  color: var(--text);
+
+  font-size: 13px;
+
+  outline: none;
+}
+
+.form-control:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(8, 121, 232, 0.1);
+}
+
+/* =====================================================
+   MODALS
+===================================================== */
+
+.modal {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1000;
+
+  display: none;
+
+  align-items: flex-end;
+  justify-content: center;
+
+  background: rgba(0, 20, 45, 0.55);
+
+  padding: 12px;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 480px;
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: white;
+
+  border-radius: 24px 24px 12px 12px;
+
+  padding: 20px;
+
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 18px;
+}
+
+.modal-header h2 {
+  font-size: 19px;
+}
+
+.close-btn {
+  width: 34px;
+  height: 34px;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: #f1f5f9;
+
+  cursor: pointer;
+
+  font-size: 18px;
+}
+
+/* =====================================================
+   REFERRAL
+===================================================== */
+
+.referral-card {
+  padding: 18px;
+
+  border-radius: 19px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #10233f,
+      #0879e8
+    );
+
+  box-shadow: var(--shadow);
+}
+
+.referral-code {
+  margin: 12px 0;
+
+  padding: 12px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  border-radius: 12px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.referral-code strong {
+  font-size: 17px;
+  letter-spacing: 1px;
+}
+
+.referral-levels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+}
+
+.referral-level {
+  padding: 9px 5px;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.1);
+
+  text-align: center;
+}
+
+.referral-level strong {
+  display: block;
+  font-size: 15px;
+}
+
+.referral-level span {
+  font-size: 9px;
+  opacity: 0.8;
+}
+
+/* =====================================================
+   KYC
+===================================================== */
+
+.kyc-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 13px;
+
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 15px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+
+.status-dot.success {
+  background: var(--green);
+}
+
+.status-dot.error {
+  background: var(--red);
+}
+
+.kyc-status strong {
+  display: block;
+  font-size: 12px;
+}
+
+.kyc-status span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+/* =====================================================
+   VERIFICATION STEPS
+===================================================== */
+
+.verification-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 15px 0;
+}
+
+.verification-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: relative;
+  z-index: 2;
+}
+
+.verification-number {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #e9eef5;
+  color: var(--muted);
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.verification-step.active .verification-number,
+.verification-step.completed .verification-number {
+  background: var(--blue);
+  color: white;
+}
+
+.verification-step span {
+  margin-top: 6px;
+
+  font-size: 9px;
+  color: var(--muted);
+
+  text-align: center;
+}
+
+.verification-line {
+  flex: 1;
+  height: 2px;
+  background: #e2e8f0;
+}
+
+/* =====================================================
+   SUPPORT
+===================================================== */
+
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.support-card {
+  padding: 15px;
+
+  background: white;
+
+  border: 1px solid var(--border);
+  border-radius: 16px;
+
+  cursor: pointer;
+}
+
+.support-card strong {
+  display: block;
+  font-size: 13px;
+}
+
+.support-card span {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* =====================================================
+   TRANSACTIONS
+===================================================== */
+
+.transaction-list {
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 17px;
+
+  overflow: hidden;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 13px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.transaction-item:last-child {
+  border-bottom: 0;
+}
+
+.transaction-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.transaction-icon {
+  width: 35px;
+  height: 35px;
+
+  border-radius: 11px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #edf7ff;
+  color: var(--blue);
+}
+
+.transaction-name {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.transaction-date {
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.transaction-amount {
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.transaction-amount.positive {
+  color: var(--green);
+}
+
+.transaction-amount.negative {
+  color: var(--red);
+}
+
+/* =====================================================
+   BOTTOM NAVIGATION
+===================================================== */
+
+.bottom-nav {
+  position: fixed;
+
+  bottom: 0;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 100%;
+  max-width: 480px;
+
+  z-index: 200;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+  padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+
+  background: rgba(255, 255, 255, 0.96);
+
+  backdrop-filter: blur(15px);
+
+  border-top: 1px solid var(--border);
+
+  box-shadow: 0 -5px 20px rgba(0, 50, 100, 0.08);
+}
+
+.nav-item {
+  border: 0;
+  background: transparent;
+
+  color: var(--muted);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 3px;
+
+  padding: 5px 2px;
+
+  font-size: 9px;
+
+  cursor: pointer;
+}
+
+.nav-item .nav-icon {
+  font-size: 18px;
+}
+
+.nav-item.active {
+  color: var(--blue);
+  font-weight: 750;
+}
+
+/* =====================================================
+   ALERTS
+===================================================== */
+
+.alert {
+  padding: 12px 13px;
+
+  border-radius: 12px;
+
+  font-size: 11px;
+
+  margin-bottom: 12px;
+}
+
+.alert-info {
+  background: #eaf5ff;
+  color: #075b9e;
+}
+
+.alert-success {
+  background: #eafaf4;
+  color: #087a4e;
+}
+
+.alert-warning {
+  background: #fff7e8;
+  color: #a35b00;
+}
+
+.alert-danger {
+  background: #fff0f0;
+  color: #b42318;
+}
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+.loading {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 120px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+
+  border: 3px solid #dbeafe;
+  border-top-color: var(--blue);
+
+  border-radius: 50%;
+
+  animation: spin 0.8s linear infinite;
+
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+.empty-state {
+  text-align: center;
+
+  padding: 30px 15px;
+
+  color: var(--muted);
+}
+
+.empty-state-icon {
+  font-size: 35px;
+  margin-bottom: 8px;
+}
+
+.empty-state strong {
+  display: block;
+
+  color: var(--dark);
+
+  font-size: 14px;
+
+  margin-bottom: 4px;
+}
+
+.empty-state p {
+  font-size: 11px;
+}
+
+/* =====================================================
+   ADMIN
+===================================================== */
+
+.admin-badge {
+  display: inline-flex;
+
+  padding: 5px 8px;
+
+  border-radius: 8px;
+
+  background: #fff0d9;
+
+  color: #9a5800;
+
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.admin-stat-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 10px;
+}
+
+.admin-stat {
+  padding: 15px;
+
+  border-radius: 16px;
+
+  background: white;
+
+  border: 1px solid var(--border);
+}
+
+.admin-stat span {
+  display: block;
+
+  color: var(--muted);
+
+  font-size: 10px;
+
+  margin-bottom: 5px;
+}
+
+.admin-stat strong {
+  font-size: 21px;
+  color: var(--dark);
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (min-width: 481px) {
+  body {
+    background:
+      linear-gradient(
+        rgba(230, 242, 252, 0.9),
+        rgba(230, 242, 252, 0.94)
+      ),
+      url("/images/bikes-city.jpg") center / cover fixed;
+  }
+
+  .app-shell {
+    min-height: 100vh;
+  }
+}
+
+@media (max-width: 350px) {
+  .hero h1 {
+    font-size: 25px;
+  }
+
+  .package-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .referral-levels {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =====================================================
+   ACCESSIBILITY
+===================================================== */
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(8, 121, 232, 0.25);
+  outline-offset: 2px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-15 {
+  margin-top: 15px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
