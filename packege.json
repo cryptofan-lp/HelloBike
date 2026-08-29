@@ -1,6 +1,6 @@
 {
   "name": "hellobikes",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "HelloBikes mobile bicycle rental and ownership platform",
   "main": "server.js",
   "scripts": {
