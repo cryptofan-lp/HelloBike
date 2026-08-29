@@ -1,0 +1,2328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <meta
+    name="description"
+    content="HelloBikes - Bicycle ownership and daily rental platform"
+  >
+
+  <meta name="theme-color" content="#0b83f6">
+
+  <title>HelloBikes</title>
+
+  <style>
+    /* =====================================================
+       RESET
+    ===================================================== */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+      background: #eef5fb;
+      color: #152238;
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* =====================================================
+       MOBILE APP CONTAINER
+    ===================================================== */
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #f6f9fc;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* =====================================================
+       TOP HEADER
+    ===================================================== */
+
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      height: 68px;
+      padding: 0 18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(14px);
+
+      border-bottom: 1px solid #e7edf4;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: linear-gradient(135deg, #087ff5, #13c5ff);
+      color: white;
+
+      font-size: 23px;
+      box-shadow: 0 7px 18px rgba(8,127,245,0.25);
+    }
+
+    .brand-text h1 {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+    }
+
+    .brand-text span {
+      display: block;
+      font-size: 10px;
+      color: #8090a4;
+      margin-top: 1px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+
+      background: #f1f6fb;
+      color: #24415e;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 18px;
+    }
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .hero {
+      min-height: 355px;
+      position: relative;
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(4,34,67,0.10),
+          rgba(4,34,67,0.78)
+        ),
+        url("/images/bike-city.jpg") center/cover no-repeat;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+      background:
+        radial-gradient(
+          circle at 80% 20%,
+          rgba(19,197,255,0.30),
+          transparent 35%
+        );
+    }
+
+    .hero-content {
+      position: absolute;
+      z-index: 2;
+      left: 22px;
+      right: 22px;
+      bottom: 27px;
+      color: white;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+
+      padding: 7px 11px;
+      border-radius: 20px;
+
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.24);
+
+      backdrop-filter: blur(8px);
+
+      font-size: 11px;
+      font-weight: 700;
+
+      margin-bottom: 12px;
+    }
+
+    .hero h2 {
+      font-size: 32px;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 14px;
+      line-height: 1.55;
+      max-width: 340px;
+      color: rgba(255,255,255,0.90);
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .primary-button {
+      background: linear-gradient(135deg, #0783f7, #0bbde9);
+      color: white;
+
+      padding: 12px 18px;
+      border-radius: 12px;
+
+      font-weight: 750;
+      font-size: 13px;
+
+      box-shadow: 0 9px 20px rgba(0,130,240,0.28);
+    }
+
+    .secondary-button {
+      background: rgba(255,255,255,0.16);
+      color: white;
+
+      padding: 12px 18px;
+      border-radius: 12px;
+
+      font-weight: 700;
+      font-size: 13px;
+
+      border: 1px solid rgba(255,255,255,0.35);
+      backdrop-filter: blur(8px);
+    }
+
+    /* =====================================================
+       QUICK STATS
+    ===================================================== */
+
+    .quick-stats {
+      padding: 14px 15px 4px;
+    }
+
+    .stats-card {
+      background: white;
+      border-radius: 17px;
+      padding: 16px;
+
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      box-shadow: 0 8px 30px rgba(28,61,92,0.08);
+    }
+
+    .stat {
+      text-align: center;
+      padding: 0 7px;
+      border-right: 1px solid #edf1f5;
+    }
+
+    .stat:last-child {
+      border-right: none;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 17px;
+      color: #0b83f6;
+      font-weight: 800;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 4px;
+      font-size: 9px;
+      color: #8795a5;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    /* =====================================================
+       SECTIONS
+    ===================================================== */
+
+    .section {
+      padding: 21px 16px 0;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 13px;
+    }
+
+    .section-header h3 {
+      font-size: 18px;
+      letter-spacing: -0.3px;
+    }
+
+    .section-header span {
+      font-size: 11px;
+      color: #0b83f6;
+      font-weight: 700;
+    }
+
+    /* =====================================================
+       HOW IT WORKS
+    ===================================================== */
+
+    .steps {
+      display: grid;
+      gap: 10px;
+    }
+
+    .step {
+      background: white;
+      border-radius: 15px;
+      padding: 14px;
+
+      display: flex;
+      gap: 12px;
+      align-items: center;
+
+      box-shadow: 0 5px 20px rgba(30,60,90,0.06);
+    }
+
+    .step-number {
+      min-width: 38px;
+      height: 38px;
+      border-radius: 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #e9f5ff;
+      color: #087ff5;
+
+      font-weight: 800;
+    }
+
+    .step-content strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+
+    .step-content p {
+      color: #8290a0;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    /* =====================================================
+       BIKE PACKAGES
+    ===================================================== */
+
+    .packages {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 11px;
+    }
+
+    .package-card {
+      position: relative;
+      overflow: hidden;
+
+      background: white;
+      border-radius: 17px;
+
+      padding: 13px;
+
+      box-shadow: 0 7px 24px rgba(30,60,90,0.07);
+      border: 1px solid #edf1f5;
+    }
+
+    .package-image {
+      height: 105px;
+      border-radius: 12px;
+      margin-bottom: 11px;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(0,0,0,0.03),
+          rgba(0,0,0,0.28)
+        ),
+        url("/images/bikes.jpg") center/cover no-repeat;
+    }
+
+    .package-card:nth-child(2n) .package-image {
+      background-image:
+        linear-gradient(
+          180deg,
+          rgba(0,0,0,0.03),
+          rgba(0,0,0,0.28)
+        ),
+        url("/images/bike-phone.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .package-name {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .package-bikes {
+      color: #7d8b9a;
+      font-size: 10px;
+      margin-top: 3px;
+    }
+
+    .package-price {
+      margin-top: 9px;
+      font-size: 20px;
+      font-weight: 850;
+      color: #087ff5;
+    }
+
+    .package-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .package-button {
+      padding: 9px 5px;
+      border-radius: 9px;
+
+      background: #eaf5ff;
+      color: #087ff5;
+
+      font-size: 10px;
+      font-weight: 750;
+    }
+
+    .package-button.buy {
+      background: #087ff5;
+      color: white;
+    }
+
+    .loading {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 25px;
+      color: #8290a0;
+      font-size: 12px;
+    }
+
+    /* =====================================================
+       RENT / DELIVERY
+    ===================================================== */
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+    }
+
+    .service-card {
+      min-height: 145px;
+      border-radius: 17px;
+
+      padding: 16px;
+
+      position: relative;
+      overflow: hidden;
+
+      color: white;
+
+      background-size: cover;
+      background-position: center;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .service-card.rent {
+      background-image:
+        linear-gradient(
+          180deg,
+          transparent,
+          rgba(0,20,40,0.85)
+        ),
+        url("/images/bike-city.jpg");
+    }
+
+    .service-card.delivery {
+      background-image:
+        linear-gradient(
+          180deg,
+          transparent,
+          rgba(0,20,40,0.85)
+        ),
+        url("/images/office.jpg");
+    }
+
+    .service-card h4 {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .service-card p {
+      font-size: 10px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.4;
+    }
+
+    .service-card button {
+      width: fit-content;
+      margin-top: 10px;
+
+      padding: 8px 11px;
+      border-radius: 9px;
+
+      background: white;
+      color: #087ff5;
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    /* =====================================================
+       DAILY REWARDS
+    ===================================================== */
+
+    .reward-card {
+      position: relative;
+      overflow: hidden;
+
+      padding: 21px;
+
+      border-radius: 19px;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          125deg,
+          #073b70,
+          #087ff5,
+          #08b6df
+        );
+
+      box-shadow: 0 12px 30px rgba(8,127,245,0.20);
+    }
+
+    .reward-card::after {
+      content: "2%";
+      position: absolute;
+      right: -9px;
+      top: -23px;
+
+      font-size: 105px;
+      font-weight: 900;
+
+      color: rgba(255,255,255,0.08);
+    }
+
+    .reward-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: .78;
+    }
+
+    .reward-card h3 {
+      font-size: 28px;
+      margin-top: 4px;
+    }
+
+    .reward-card p {
+      margin-top: 7px;
+      font-size: 11px;
+      line-height: 1.5;
+      max-width: 285px;
+      color: rgba(255,255,255,0.88);
+    }
+
+    .reward-note {
+      margin-top: 12px;
+
+      padding: 8px 10px;
+      border-radius: 9px;
+
+      background: rgba(255,255,255,0.12);
+
+      font-size: 9px;
+    }
+
+    /* =====================================================
+       PAYMENT NETWORKS
+    ===================================================== */
+
+    .network-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .network {
+      background: white;
+      border-radius: 14px;
+
+      padding: 13px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      box-shadow: 0 5px 18px rgba(30,60,90,0.05);
+    }
+
+    .network-left {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .network-icon {
+      width: 37px;
+      height: 37px;
+      border-radius: 11px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #edf6ff;
+      color: #087ff5;
+
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .network strong {
+      font-size: 12px;
+    }
+
+    .network small {
+      display: block;
+      margin-top: 2px;
+      color: #8a97a5;
+      font-size: 9px;
+    }
+
+    .network-status {
+      font-size: 9px;
+      color: #15a06a;
+      font-weight: 800;
+    }
+
+    /* =====================================================
+       REFERRAL
+    ===================================================== */
+
+    .referral-card {
+      background: white;
+      border-radius: 18px;
+      padding: 18px;
+
+      box-shadow: 0 7px 24px rgba(30,60,90,0.06);
+    }
+
+    .referral-title {
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 13px;
+    }
+
+    .levels {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .level {
+      text-align: center;
+      padding: 12px 5px;
+
+      border-radius: 12px;
+      background: #f4f8fc;
+    }
+
+    .level strong {
+      display: block;
+      font-size: 20px;
+      color: #087ff5;
+    }
+
+    .level span {
+      display: block;
+      margin-top: 3px;
+      font-size: 9px;
+      color: #8290a0;
+    }
+
+    /* =====================================================
+       SECURITY / KYC
+    ===================================================== */
+
+    .security-card {
+      background: white;
+      border-radius: 18px;
+      padding: 17px;
+
+      box-shadow: 0 7px 24px rgba(30,60,90,0.06);
+    }
+
+    .security-row {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      padding: 10px 0;
+      border-bottom: 1px solid #eef2f6;
+    }
+
+    .security-row:last-child {
+      border-bottom: none;
+    }
+
+    .security-icon {
+      width: 35px;
+      height: 35px;
+      border-radius: 10px;
+
+      background: #eaf6ff;
+      color: #087ff5;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 15px;
+    }
+
+    .security-row strong {
+      font-size: 11px;
+      display: block;
+    }
+
+    .security-row span {
+      display: block;
+      font-size: 9px;
+      color: #8795a5;
+      margin-top: 2px;
+    }
+
+    .verified {
+      margin-left: auto;
+      font-size: 9px;
+      color: #13a66d;
+      font-weight: 800;
+    }
+
+    /* =====================================================
+       SUPPORT
+    ===================================================== */
+
+    .support {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .support-card {
+      background: white;
+      border-radius: 15px;
+      padding: 15px;
+
+      text-align: center;
+
+      box-shadow: 0 6px 20px rgba(30,60,90,0.06);
+    }
+
+    .support-card .support-icon {
+      width: 40px;
+      height: 40px;
+
+      margin: 0 auto 8px;
+
+      border-radius: 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #eaf5ff;
+      color: #087ff5;
+
+      font-size: 18px;
+    }
+
+    .support-card strong {
+      font-size: 11px;
+      display: block;
+    }
+
+    .support-card span {
+      display: block;
+      font-size: 9px;
+      color: #8a97a5;
+      margin-top: 3px;
+    }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .footer {
+      margin-top: 28px;
+      padding: 25px 18px 105px;
+
+      background: #102b45;
+      color: white;
+
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-size: 19px;
+      font-weight: 850;
+    }
+
+    .footer p {
+      margin-top: 6px;
+      font-size: 10px;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 14px;
+      font-size: 9px;
+      color: rgba(255,255,255,0.78);
+    }
+
+    /* =====================================================
+       BOTTOM NAVIGATION
+    ===================================================== */
+
+    .bottom-nav {
+      position: fixed;
+      z-index: 200;
+
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+
+      width: 100%;
+      max-width: 480px;
+
+      height: 72px;
+
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(15px);
+
+      border-top: 1px solid #e5ebf1;
+
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+
+      padding: 6px 8px 8px;
+    }
+
+    .nav-item {
+      background: transparent;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      gap: 4px;
+
+      color: #8996a4;
+
+      font-size: 9px;
+      font-weight: 650;
+    }
+
+    .nav-item .nav-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .nav-item.active {
+      color: #087ff5;
+    }
+
+    /* =====================================================
+       MODAL
+    ===================================================== */
+
+    .modal-overlay {
+      display: none;
+
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+
+      background: rgba(5,20,35,0.55);
+      backdrop-filter: blur(5px);
+
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 480px;
+
+      max-height: 88vh;
+      overflow-y: auto;
+
+      background: white;
+
+      border-radius: 25px 25px 0 0;
+
+      padding: 20px;
+      animation: slideUp .25s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+      }
+
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 17px;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+    }
+
+    .close-button {
+      width: 35px;
+      height: 35px;
+
+      border-radius: 50%;
+      background: #eef3f7;
+
+      color: #40566d;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+
+      font-size: 10px;
+      font-weight: 750;
+      color: #63758a;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+
+      padding: 12px;
+
+      border-radius: 11px;
+      border: 1px solid #dfe7ef;
+
+      outline: none;
+
+      background: #f9fbfd;
+      color: #20364d;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #087ff5;
+    }
+
+    .full-button {
+      width: 100%;
+      padding: 13px;
+
+      margin-top: 7px;
+
+      border-radius: 12px;
+
+      background: #087ff5;
+      color: white;
+
+      font-weight: 800;
+    }
+
+    .info-box {
+      padding: 12px;
+      margin-bottom: 14px;
+
+      border-radius: 11px;
+
+      background: #eef7ff;
+      color: #4d6983;
+
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (min-width: 481px) {
+      body {
+        background: #dfe9f2;
+      }
+
+      .app {
+        box-shadow: 0 0 50px rgba(20,50,80,0.12);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- ===================================================
+       HEADER
+  ==================================================== -->
+
+  <header class="top-header">
+
+    <div class="brand">
+
+      <div class="brand-logo">
+        🚲
+      </div>
+
+      <div class="brand-text">
+        <h1>HelloBikes</h1>
+        <span>Own • Rent • Ride</span>
+      </div>
+
+    </div>
+
+    <div class="header-actions">
+
+      <button
+        class="icon-button"
+        onclick="openModal('loginModal')"
+        aria-label="Login"
+      >
+        👤
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- ===================================================
+       HERO
+  ==================================================== -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <div class="hero-tag">
+        🚲 SMART BICYCLE PLATFORM
+      </div>
+
+      <h2>
+        Own a Bike.<br>
+        Earn Daily.
+      </h2>
+
+      <p>
+        Purchase bicycles through HelloBikes,
+        choose rental or delivery options,
+        and manage your bicycle portfolio from your phone.
+      </p>
+
+      <div class="hero-buttons">
+
+        <button
+          class="primary-button"
+          onclick="scrollToSection('packages')"
+        >
+          Buy a Bike
+        </button>
+
+        <button
+          class="secondary-button"
+          onclick="scrollToSection('services')"
+        >
+          Explore
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================
+       QUICK STATS
+  ==================================================== -->
+
+  <section class="quick-stats">
+
+    <div class="stats-card">
+
+      <div class="stat">
+        <strong>2%</strong>
+        <span>Daily Reward</span>
+      </div>
+
+      <div class="stat">
+        <strong>10+</strong>
+        <span>Minimum Deposit</span>
+      </div>
+
+      <div class="stat">
+        <strong>50K</strong>
+        <span>Max Withdrawal</span>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================
+       HOW IT WORKS
+  ==================================================== -->
+
+  <section class="section">
+
+    <div class="section-header">
+      <h3>How HelloBikes Works</h3>
+      <span>Simple & Fast</span>
+    </div>
+
+    <div class="steps">
+
+      <div class="step">
+
+        <div class="step-number">
+          1
+        </div>
+
+        <div class="step-content">
+          <strong>Create your account</strong>
+
+          <p>
+            Register and complete the required
+            verification steps.
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-number">
+          2
+        </div>
+
+        <div class="step-content">
+          <strong>Fund your account</strong>
+
+          <p>
+            Deposit USDT using the supported
+            blockchain networks.
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-number">
+          3
+        </div>
+
+        <div class="step-content">
+          <strong>Purchase bicycles</strong>
+
+          <p>
+            Select the bicycle package that
+            matches your budget.
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-number">
+          4
+        </div>
+
+        <div class="step-content">
+          <strong>Rent or request delivery</strong>
+
+          <p>
+            Choose rental or bicycle delivery
+            according to your needs.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================
+       BIKE PACKAGES
+  ==================================================== -->
+
+  <section
+    class="section"
+    id="packages"
+  >
+
+    <div class="section-header">
+
+      <h3>Bike Packages</h3>
+
+      <span>View All</span>
+
+    </div>
+
+    <div
+      class="packages"
+      id="packageList"
+    >
+
+      <div class="loading">
+        Loading bike packages...
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================
+       RENT / DELIVERY
+  ==================================================== -->
+
+  <section
+    class="section"
+    id="services"
+  >
+
+    <div class="section-header">
+      <h3>Our Services</h3>
+    </div>
+
+    <div class="service-grid">
+
+      <div class="service-card rent">
+
+        <h4>🚲 Rent a Bicycle</h4>
+
+        <p>
+          Choose a bicycle and use it for
+          your daily transportation needs.
+        </p>
+
+        <button
+          onclick="showMessage('Rental service selected.')"
+        >
+          Rent Now
+        </button>
+
+      </div>
+
+
+      <div class="service-card delivery">
+
+        <h4>📦 Bike Delivery</h4>
+
+        <p>
+          Request delivery or shipping
+          after purchasing your bicycle.
+        </p>
+
+        <button
+          onclick="showMessage('Delivery service selected.')"
+        >
+          Request Delivery
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================
+       DAILY REWARD
+  ==================================================== -->
+
+  <section class="section">
+
+    <div class="section-header">
+      <h3>Daily Rewards</h3>
+    </div>
+
+    <div class="reward-card">
+
+      <div class="reward-label">
+        HelloBikes Reward Program
+      </div>
+
+      <h3>2% Daily</h3>
+
+      <p>
+        Rewards are calculated according to
+        the bicycle purchase amount under the
+        platform's stated program terms.
+      </p>
+
+      <div class="reward-note">
+        Working days: Monday – Friday
+        • Program period: up to one year
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================
+       PAYMENT NETWORKS
+  ==================================================== -->
+
+  <section class="section">
+
+    <div class="section-header">
+      <h3>Payment Networks</h3>
+    </div>
+
+    <div class="network-list">
+
+      <div class="network">
+
+        <div class="network-left">
+
+          <div class="network-icon">
+            USDT
+          </div>
+
+          <div>
+            <strong>USDT — TRON</strong>
+            <small>TRC20 Network</small>
+          </div>
+
+        </div>
+
+        <div class="network-status">
+          SUPPORTED
+        </div>
+
+      </div>
+
+
+      <div class="network">
+
+        <div class="network-left">
+
+          <div class="network-icon">
+            BNB
+          </div>
+
+          <div>
+            <strong>USDT — BNB Smart Chain</strong>
+            <small>BEP20 Network</small>
+          </div>
+
+        </div>
+
+        <div class="network-status">
+          SUPPORTED
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================
+       DEPOSIT / WITHDRAWAL
+  ==================================================== -->
+
+  <section class="section">
+
+    <div class="section-header">
+      <h3>Wallet</h3>
+    </div>
+
+    <div class="referral-card">
+
+      <div class="referral-title">
+        Deposit & Withdrawal
+      </div>
+
+      <div class="steps">
+
+        <div class="step">
+
+          <div class="step-number">
+            ↓
+          </div>
+
+          <div class="step-content">
+            <strong>Minimum Deposit — $10</strong>
+
+            <p>
+              Fund your HelloBikes account
+              using USDT TRC20 or BEP20.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="step-number">
+            ↑
+          </div>
+
+          <div class="step-content">
+            <strong>$50 – $50,000 Withdrawal</strong>
+
+            <p>
+              Withdrawals are available
+              Monday through Friday.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="step">
+
+          <div class="step-number">
+            %
+          </div>
+
+          <div class="step-content">
+            <strong>Withdrawal Fee — 15%</strong>
+
+            <p>
+              The applicable withdrawal fee
+              is displayed before confirmation.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================
+       REFERRAL PROGRAM
+  ==================================================== -->
+
+  <section class="section">
+
+    <div class="section-header">
+      <h3>Referral Program</h3>
+    </div>
+
+    <div class="referral-card">
+
+      <div class="referral-title">
+        Build your HelloBikes network
+      </div>
+
+      <div class="levels">
+
+        <div class="level">
+          <strong>10%</strong>
+          <span>LEVEL 1</span>
+        </div>
+
+        <div class="level">
+          <strong>3%</strong>
+          <span>LEVEL 2</span>
+        </div>
+
+        <div class="level">
+          <strong>2%</strong>
+          <span>LEVEL 3</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================
+       KYC & SECURITY
+  ==================================================== -->
+
+  <section class="section">
+
+    <div class="section-header">
+      <h3>Security & Verification</h3>
+    </div>
+
+    <div class="security-card">
+
+      <div class="security-row">
+
+        <div class="security-icon">
+          ✓
+        </div>
+
+        <div>
+          <strong>KYC Verification</strong>
+          <span>Identity verification required</span>
+        </div>
+
+        <div class="verified">
+          REQUIRED
+        </div>
+
+      </div>
+
+
+      <div class="security-row">
+
+        <div class="security-icon">
+          1
+        </div>
+
+        <div>
+          <strong>Verification Step 1</strong>
+          <span>Account and contact verification</span>
+        </div>
+
+        <div class="verified">
+          STEP 1
+        </div>
+
+      </div>
+
+
+      <div class="security-row">
+
+        <div class="security-icon">
+          2
+        </div>
+
+        <div>
+          <strong>Verification Step 2</strong>
+          <span>Identity/KYC confirmation</span>
+        </div>
+
+        <div class="verified">
+          STEP 2
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================
+       CUSTOMER SUPPORT
+  ==================================================== -->
+
+  <section class="section">
+
+    <div class="section-header">
+      <h3>Customer Support</h3>
+    </div>
+
+    <div class="support">
+
+      <a
+        class="support-card"
+        href="#"
+        onclick="showMessage('Telegram support will be connected here.'); return false;"
+      >
+
+        <div class="support-icon">
+          ✈
+        </div>
+
+        <strong>Telegram</strong>
+        <span>Chat with support</span>
+
+      </a>
+
+
+      <a
+        class="support-card"
+        href="#"
+        onclick="showMessage('Discord support will be connected here.'); return false;"
+      >
+
+        <div class="support-icon">
+          🎮
+        </div>
+
+        <strong>Discord</strong>
+        <span>Join our community</span>
+
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================
+       FOOTER
+  ==================================================== -->
+
+  <footer class="footer">
+
+    <div class="footer-logo">
+      🚲 HelloBikes
+    </div>
+
+    <p>
+      Own bicycles. Rent. Ride.
+      Manage your bicycle portfolio from your phone.
+    </p>
+
+    <div class="footer-links">
+
+      <a href="#">
+        Terms
+      </a>
+
+      <a href="#">
+        Privacy
+      </a>
+
+      <a href="#">
+        Support
+      </a>
+
+    </div>
+
+    <p style="margin-top:16px;">
+      © 2026 HelloBikes. All rights reserved.
+    </p>
+
+  </footer>
+
+
+  <!-- ===================================================
+       BOTTOM NAVIGATION
+  ==================================================== -->
+
+  <nav class="bottom-nav">
+
+    <button
+      class="nav-item active"
+      onclick="scrollToTop()"
+    >
+      <span class="nav-icon">⌂</span>
+      Home
+    </button>
+
+
+    <button
+      class="nav-item"
+      onclick="scrollToSection('packages')"
+    >
+      <span class="nav-icon">🚲</span>
+      Bikes
+    </button>
+
+
+    <button
+      class="nav-item"
+      onclick="openModal('walletModal')"
+    >
+      <span class="nav-icon">▣</span>
+      Wallet
+    </button>
+
+
+    <button
+      class="nav-item"
+      onclick="scrollToSection('services')"
+    >
+      <span class="nav-icon">↔</span>
+      Services
+    </button>
+
+
+    <button
+      class="nav-item"
+      onclick="openModal('loginModal')"
+    >
+      <span class="nav-icon">●</span>
+      Account
+    </button>
+
+  </nav>
+
+</div>
+
+
+<!-- =====================================================
+     LOGIN MODAL
+====================================================== -->
+
+<div
+  class="modal-overlay"
+  id="loginModal"
+  onclick="closeModalOutside(event, 'loginModal')"
+>
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h3>HelloBikes Account</h3>
+
+      <button
+        class="close-button"
+        onclick="closeModal('loginModal')"
+      >
+        ✕
+      </button>
+
+    </div>
+
+    <div class="info-box">
+      Sign in to manage your bicycles,
+      deposits, withdrawals, rewards,
+      referrals and verification.
+    </div>
+
+    <div class="form-group">
+
+      <label>
+        Email or Phone
+      </label>
+
+      <input
+        type="text"
+        id="loginEmail"
+        placeholder="Enter email or phone"
+      >
+
+    </div>
+
+    <div class="form-group">
+
+      <label>
+        Password
+      </label>
+
+      <input
+        type="password"
+        id="loginPassword"
+        placeholder="Enter password"
+      >
+
+    </div>
+
+    <button
+      class="full-button"
+      onclick="showMessage('Login system will connect to the authentication API.')"
+    >
+      Sign In
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     WALLET MODAL
+====================================================== -->
+
+<div
+  class="modal-overlay"
+  id="walletModal"
+  onclick="closeModalOutside(event, 'walletModal')"
+>
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h3>Wallet</h3>
+
+      <button
+        class="close-button"
+        onclick="closeModal('walletModal')"
+      >
+        ✕
+      </button>
+
+    </div>
+
+    <div class="info-box">
+      USDT deposits are planned for TRC20
+      and BEP20 networks. Always verify the
+      selected network before sending funds.
+    </div>
+
+    <div class="form-group">
+
+      <label>
+        Network
+      </label>
+
+      <select id="walletNetwork">
+
+        <option value="TRC20">
+          USDT — TRON (TRC20)
+        </option>
+
+        <option value="BEP20">
+          USDT — BNB Smart Chain (BEP20)
+        </option>
+
+      </select>
+
+    </div>
+
+    <button
+      class="full-button"
+      onclick="showMessage('Wallet deposit functionality will connect to the backend.')"
+    >
+      Deposit USDT
+    </button>
+
+    <button
+      class="full-button"
+      style="
+        background:#eef6ff;
+        color:#087ff5;
+        margin-top:9px;
+      "
+      onclick="showMessage('Withdrawal functionality will connect to the backend.')"
+    >
+      Withdraw USDT
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+  /* =====================================================
+     API CONFIGURATION
+  ===================================================== */
+
+  const API_BASE =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+      ? ""
+      : "https://hellobike-api.onrender.com";
+
+
+  /* =====================================================
+     SCROLL FUNCTIONS
+  ===================================================== */
+
+  function scrollToSection(id) {
+
+    const element = document.getElementById(id);
+
+    if (!element) {
+      return;
+    }
+
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
+
+  function scrollToTop() {
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  /* =====================================================
+     MODALS
+  ===================================================== */
+
+  function openModal(id) {
+
+    const modal =
+      document.getElementById(id);
+
+    if (!modal) {
+      return;
+    }
+
+    modal.classList.add("show");
+
+    document.body.style.overflow = "hidden";
+  }
+
+
+  function closeModal(id) {
+
+    const modal =
+      document.getElementById(id);
+
+    if (!modal) {
+      return;
+    }
+
+    modal.classList.remove("show");
+
+    document.body.style.overflow = "";
+  }
+
+
+  function closeModalOutside(event, id) {
+
+    if (event.target.id === id) {
+      closeModal(id);
+    }
+
+  }
+
+
+  /* =====================================================
+     MESSAGE
+  ===================================================== */
+
+  function showMessage(message) {
+
+    alert(message);
+
+  }
+
+
+  /* =====================================================
+     ESC KEY
+  ===================================================== */
+
+  document.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (event.key === "Escape") {
+
+        document
+          .querySelectorAll(".modal-overlay.show")
+          .forEach(function(modal) {
+
+            modal.classList.remove("show");
+
+          });
+
+        document.body.style.overflow = "";
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     PACKAGE LOADING
+  ===================================================== */
+
+  async function loadPackages() {
+
+    const container =
+      document.getElementById("packageList");
+
+    if (!container) {
+      return;
+    }
+
+    try {
+
+      const response =
+        await fetch(
+          `${API_BASE}/api/packages`
+        );
+
+      if (!response.ok) {
+        throw new Error(
+          "Unable to load packages."
+        );
+      }
+
+      const result =
+        await response.json();
+
+      if (
+        !result.ok ||
+        !Array.isArray(result.packages)
+      ) {
+        throw new Error(
+          "Invalid package response."
+        );
+      }
+
+      if (result.packages.length === 0) {
+
+        container.innerHTML = `
+          <div class="loading">
+            No bike packages are currently available.
+          </div>
+        `;
+
+        return;
+      }
+
+      container.innerHTML =
+        result.packages
+          .map(function(pkg) {
+
+            const price =
+              Number(pkg.price || pkg.amount_usd || 0);
+
+            return `
+              <article class="package-card">
+
+                <div class="package-image"></div>
+
+                <div class="package-name">
+                  ${escapeHtml(pkg.name || "Bike Package")}
+                </div>
+
+                <div class="package-bikes">
+                  Bicycle ownership package
+                </div>
+
+                <div class="package-price">
+                  $${price.toLocaleString()}
+                </div>
+
+                <div class="package-actions">
+
+                  <button
+                    class="package-button"
+                    onclick="selectRental('${escapeJs(pkg.id)}')"
+                  >
+                    Rent
+                  </button>
+
+                  <button
+                    class="package-button buy"
+                    onclick="selectPackage('${escapeJs(pkg.id)}', '${escapeJs(pkg.name || "")}', ${price})"
+                  >
+                    Buy
+                  </button>
+
+                </div>
+
+              </article>
+            `;
+
+          })
+          .join("");
+
+    } catch (error) {
+
+      console.error(
+        "Package loading error:",
+        error
+      );
+
+      /*
+       * Fallback packages.
+       * These match the HelloBikes package
+       * structure requested for the platform.
+       */
+
+      const fallbackPackages = [
+        {
+          name: "1 Bike",
+          bikes: 1,
+          price: 50
+        },
+        {
+          name: "2 Bikes",
+          bikes: 2,
+          price: 100
+        },
+        {
+          name: "4 Bikes",
+          bikes: 4,
+          price: 200
+        },
+        {
+          name: "10 Bikes",
+          bikes: 10,
+          price: 500
+        },
+        {
+          name: "20 Bikes",
+          bikes: 20,
+          price: 1000
+        },
+        {
+          name: "100 Bikes",
+          bikes: 100,
+          price: 5000
+        },
+        {
+          name: "200 Bikes",
+          bikes: 200,
+          price: 10000
+        },
+        {
+          name: "1,000 Bikes",
+          bikes: 1000,
+          price: 50000
+        }
+      ];
+
+      container.innerHTML =
+        fallbackPackages
+          .map(function(pkg) {
+
+            return `
+              <article class="package-card">
+
+                <div class="package-image"></div>
+
+                <div class="package-name">
+                  ${pkg.name}
+                </div>
+
+                <div class="package-bikes">
+                  ${pkg.bikes.toLocaleString()} bicycle${pkg.bikes === 1 ? "" : "s"}
+                </div>
+
+                <div class="package-price">
+                  $${pkg.price.toLocaleString()}
+                </div>
+
+                <div class="package-actions">
+
+                  <button
+                    class="package-button"
+                    onclick="selectRental('fallback-${pkg.bikes}')"
+                  >
+                    Rent
+                  </button>
+
+                  <button
+                    class="package-button buy"
+                    onclick="selectPackage('fallback-${pkg.bikes}', '${pkg.name}', ${pkg.price})"
+                  >
+                    Buy
+                  </button>
+
+                </div>
+
+              </article>
+            `;
+
+          })
+          .join("");
+
+    }
+
+  }
+
+
+  /* =====================================================
+     PACKAGE ACTIONS
+  ===================================================== */
+
+  function selectPackage(
+    id,
+    name,
+    price
+  ) {
+
+    showMessage(
+      `Selected ${name} for $${Number(price).toLocaleString()}. Sign in to continue with your purchase.`
+    );
+
+    openModal("loginModal");
+
+  }
+
+
+  function selectRental(id) {
+
+    showMessage(
+      "Rental service selected. Sign in to continue."
+    );
+
+    openModal("loginModal");
+
+  }
+
+
+  /* =====================================================
+     HTML ESCAPING
+  ===================================================== */
+
+  function escapeHtml(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function escapeJs(value) {
+
+    return String(value)
+      .replace(/\\/g, "\\\\")
+      .replace(/'/g, "\\'");
+
+  }
+
+
+  /* =====================================================
+     INITIALIZE
+  ===================================================== */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+      loadPackages();
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
